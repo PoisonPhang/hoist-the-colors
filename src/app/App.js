@@ -4,6 +4,7 @@ import { Flag, Group, Menu, User } from 'grommet-icons';
 import React, { Component } from 'react';
 
 import Products from '../features/products/Products';
+import Flags from '../features/flags/Flags';
 
 const theme = {
   global: {
@@ -46,7 +47,7 @@ class App extends Component {
                     </Sidebar>
                     <Collapsible direction='horizontal' open={showProducts && showFeatures}>
                       <Sidebar background='dark-2' header={<Heading level='2' margin='medium'>Features</Heading>}>
-                        <Products />
+                        <Flags />
                       </Sidebar>
                     </Collapsible>
                   </Box>
