@@ -1,6 +1,6 @@
 
-import { Box, Button, Collapsible, Heading, Grommet, ResponsiveContext } from 'grommet'
-import { Notification } from 'grommet-icons';
+import { Box, Button, Collapsible, Heading, Grommet, Layer, ResponsiveContext } from 'grommet'
+import { FormClose, Notification } from 'grommet-icons';
 import React, { useState } from 'react';
 
 const AppBar = (props) => (
@@ -24,27 +24,52 @@ function App() {
       <ResponsiveContext.Consumer>
         {size => (
           <Box>
-          <AppBar>
-            <Heading level='3' margin='none'>Hoist The Colors</Heading>
-            <Button icon={<Notification />} onClick={() => setShowSidebar(!showSidebar)} />
-          </AppBar>
-          <Box direction='row' flex overflow={{ horizontal: 'hidden' }}>
-            <Collapsible direction='horizontal' open={showSidebar}>
-              <Box
-                width='medium'
-                background='light-2'
-                elevation='small'
-                align='center'
-                justify='center'
-              >
-                Sidebar
+            <AppBar>
+              <Heading level='3' margin='none'>Hoist The Colors</Heading>
+              <Button icon={<Notification />} onClick={() => setShowSidebar(!showSidebar)} />
+            </AppBar>
+            <Box direction='row' flex overflow={{ horizontal: 'hidden' }}>
+              {(!showSidebar || size !== 'small') ? (
+                <Collapsible direction='horizontal' open={showSidebar}>
+                  <Box
+                    width='medium'
+                    background='light-2'
+                    elevation='small'
+                    align='center'
+                    justify='center'
+                  >
+                    Sidebar
+                  </Box>
+                </Collapsible>
+              ) : (
+                <Layer>
+                  <Box
+                    background='light-2'
+                    tag='header'
+                    justify='end'
+                    align='center'
+                    direction='row'
+                  >
+                    <Button
+                      icon={<FormClose />}
+                      onClick={() => setShowSidebar(false)}
+                    />
+                  </Box>
+                  <Box
+                    fill
+                    background='light-2'
+                    align='center'
+                    justify='center'
+                  >
+                    Sidebar
+                  </Box>
+                </Layer>
+              )}
+              <Box flex align='center' justify='center'>
+                Content
               </Box>
-            </Collapsible>
-            <Box flex align='center' justify='center'>
-              Content
             </Box>
           </Box>
-        </Box>
         )}
       </ResponsiveContext.Consumer>
     </Grommet>
