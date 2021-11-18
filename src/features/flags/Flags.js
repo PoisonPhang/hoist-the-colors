@@ -1,34 +1,46 @@
-import { List, TableCell, TableRow } from "grommet";
+import { Table, TableBody, TableCell, TableHeader, TableRow } from "grommet";
 import { Checkmark, Close } from "grommet-icons";
 import React, { Component } from "react";
 
-class FlagListElement extends Component {
-  render() {
-    return (
-      <TableRow background={this.props.flag.enabled ? 'status-ok' : 'status-disabled'}>
-        <TableCell scope='row'>{this.props.flag.name}</TableCell>
-        <TableCell>{this.props.flag.enabled ? (<Checkmark />) : (<Close />)}</TableCell>
-        <TableCell>{this.props.flag.clientToggle ? (<Checkmark />) : (<Close />)}</TableCell>
-        <TableCell>{this.props.flag.clientToggle ? (<Checkmark />) : (<Close />)}</TableCell>
-        <TableCell>{this.props.flag.disabledFor.length}</TableCell>
-        <TableCell>{this.props.flag.releaseType}</TableCell>
-      </TableRow>
-    )
-  }
+const createFlagListElement = (flagObj) => {
+  return (<TableRow background={flagObj.enabled ? 'status-ok' : 'status-disabled'}>
+    <TableCell scope='row'>{flagObj.name}</TableCell>
+    <TableCell align='center'>{flagObj.enabled ? (<Checkmark />) : (<Close />)}</TableCell>
+    <TableCell align='center'>{flagObj.clientToggle ? (<Checkmark />) : (<Close />)}</TableCell>
+    <TableCell>{flagObj.releaseType.type}</TableCell>
+  </TableRow>)
 }
+
+const testFlags = [
+  { oid: '01', name: 'feature01', enabled: true, releaseType: { type: 'Global' } },
+  { oid: '02', name: 'feature01', enabled: true, releaseType: { type: 'Limited', users: [] } },
+  { oid: '03', name: 'feature01', enabled: true, releaseType: { type: 'Percentage', percent: 7, users: [] } },
+];
 
 class Flags extends Component {
   render() {
     return (
-      <List
-        primaryKey='name'
-        secondaryKey='releaseType'
-        data={[
-          { oid: '01', name: 'feature01', releaseType: 'Global' },
-          { oid: '01', name: 'feature01', releaseType: 'Limited' },
-          { oid: '01', name: 'feature01', releaseType: 'Percentage (7%)' },
-        ]}
-      />
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableCell scope='col' border='bottom'>
+              Name
+            </TableCell>
+            <TableCell scope='col' border='bottom'>
+              Enabled
+            </TableCell>
+            <TableCell scope='col' border='bottom'>
+              Client Toggle
+            </TableCell>
+            <TableCell scope='col' border='bottom'>
+              Release Type
+            </TableCell>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {testFlags.map(createFlagListElement)}
+        </TableBody>
+      </Table>
     )
   }
 }

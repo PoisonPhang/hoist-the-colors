@@ -1,5 +1,5 @@
 
-import { Box, Button, Collapsible, Header, Heading, Grommet, Layer, Main, Nav, ResponsiveContext, Sidebar, Anchor } from 'grommet'
+import { Box, Button, Collapsible, Header, Heading, Grommet, Main, Nav, ResponsiveContext, Sidebar, Anchor } from 'grommet'
 import { Flag, Group, Menu, User } from 'grommet-icons';
 import React, { Component } from 'react';
 
