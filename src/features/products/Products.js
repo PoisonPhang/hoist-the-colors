@@ -1,8 +1,7 @@
 import { List } from 'grommet'
 import React, { Component } from "react";
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import {getProducts, selectProducts} from './productsSlice'
+import { getProducts } from './productsSlice'
 
 class Products extends Component {
   componentDidMount() {
@@ -12,9 +11,9 @@ class Products extends Component {
   render() {
     return (
       <List
-      primaryKey='name'
-      data={this.props.products}
-    />
+        primaryKey='name'
+        data={this.props.products}
+      />
     )
   }
 }
@@ -25,6 +24,6 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = () => ({getProducts})
+const mapDispatchToProps = () => ({ getProducts })
 
 export default connect(mapStateToProps, mapDispatchToProps())(Products)

@@ -1,6 +1,8 @@
 import { Table, TableBody, TableCell, TableHeader, TableRow } from "grommet";
 import { Checkmark, Close } from "grommet-icons";
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { getFlags } from "./flagsSlice";
 
 const createFlagListElement = (flagObj) => {
   return (<TableRow background={flagObj.enabled ? 'status-ok' : 'status-disabled'}>
@@ -11,13 +13,11 @@ const createFlagListElement = (flagObj) => {
   </TableRow>)
 }
 
-const testFlags = [
-  { oid: '01', name: 'feature01', enabled: true, releaseType: { type: 'Global' } },
-  { oid: '02', name: 'feature01', enabled: true, releaseType: { type: 'Limited', users: [] } },
-  { oid: '03', name: 'feature01', enabled: true, releaseType: { type: 'Percentage', percent: 7, users: [] } },
-];
-
 class Flags extends Component {
+  componentDidMount() {
+    this.props.getFlags('01')
+  }
+
   render() {
     return (
       <Table>
@@ -38,11 +38,19 @@ class Flags extends Component {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {testFlags.map(createFlagListElement)}
+          {this.props.flags.map(createFlagListElement)}
         </TableBody>
       </Table>
     )
   }
 }
 
-export default Flags
+const mapStateToProps = state => {
+  return {
+    flags: state.flags.flags,
+  }
+};
+
+const mapDispatchToProps = () => ({ getFlags });
+
+export default connect(mapStateToProps, mapDispatchToProps)(Flags)
