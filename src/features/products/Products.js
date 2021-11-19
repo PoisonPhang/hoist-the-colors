@@ -1,22 +1,30 @@
 import { List } from 'grommet'
 import React, { Component } from "react";
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import {getProducts, selectProducts} from './productsSlice'
 
 class Products extends Component {
+  componentDidMount() {
+    this.props.getProducts('example@email.com')
+  }
+
   render() {
     return (
       <List
-        primaryKey='name'
-        data={[
-          { oid: '01', name: 'product01', users: ['02'] },
-          { oid: '02', name: 'product02', users: ['02', '04'] },
-          { oid: '03', name: 'product03', users: ['02', '03'] },
-          { oid: '04', name: 'product04', users: ['01', '02'] },
-          { oid: '05', name: 'product05', users: ['01', '02', '03'] },
-          { oid: '06', name: 'product06', users: ['01', '02', '04'] },
-        ]}
-      />
+      primaryKey='name'
+      data={this.props.products}
+    />
     )
   }
 }
 
-export default Products
+const mapStateToProps = state => {
+  return {
+    products: state.products.products,
+  }
+}
+
+const mapDispatchToProps = () => ({getProducts})
+
+export default connect(mapStateToProps, mapDispatchToProps())(Products)
