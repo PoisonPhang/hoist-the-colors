@@ -8,24 +8,22 @@ export const slice = createSlice({
     flags: []
   },
   reducers: {
-    getFlagsList: (state, action) => {
+    getFlagsReducer: (state, action) => {
       state.flags = action.payload;
     }
   }
 });
 
-export const { getFlagsList } = slice.actions;
+export const { getFlagsReducer } = slice.actions;
 
 export const getFlags = productId => dispatch => {
-  fetch (`get/flags/${productId}`)
+  fetch(`/get/flags/${productId}`)
     .then((res) => {
       return res.json();
     })
     .then((res) => {
-      dispatch(getFlagsList(res))
+      dispatch(getFlagsReducer(res))
     })
 }
-
-export const selectFlags = state => state.flags.flags;
 
 export default slice.reducer;

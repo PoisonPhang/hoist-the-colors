@@ -51,6 +51,6 @@ const mapStateToProps = state => {
   }
 };
 
-const mapDispatchToProps = () => ({ getFlags });
+const mapDispatchToProps = () => ({ getFlags })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Flags)
+export default connect(mapStateToProps, mapDispatchToProps())(Flags)
