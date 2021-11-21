@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 
 import Products from '../features/products/Products';
 import Flags from '../features/flags/Flags';
+import UpsertProduct from '../features/upsertProduct/UpsertProduct';
 
 const theme = {
   global: {
@@ -53,8 +54,8 @@ class App extends Component {
                   </Box>
                 </Collapsible>
                 {/* Main content */}
-                <Main>
-
+                <Main pad='large'>
+                  <UpsertProduct />
                 </Main>
               </Box>
             </Box>
