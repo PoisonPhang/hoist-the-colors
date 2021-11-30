@@ -54,7 +54,7 @@ class App extends Component {
                   </Box>
                 </Collapsible>
                 {/* Main content */}
-                <Main pad='large'>
+                <Main pad='large' direction='row' justify='center'>
                   <UpsertProduct />
                 </Main>
               </Box>

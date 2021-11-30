@@ -1,4 +1,4 @@
-import { Box, Card, CardBody, CardFooter, CardHeader, Heading, List, TextInput } from "grommet";
+import { Box, Button, Card, CardBody, CardHeader, Form, FormField, Heading, List, TextArea, TextInput } from "grommet";
 import { Component } from "react";
 import { connect } from "react-redux";
 
@@ -8,7 +8,7 @@ import { createProduct, getUsers } from './upsertProductSlice'
 class UpsertProduct extends Component {
   state = {
     productName: '',
-    users: ''
+    selectedUsers: '',
   }
 
   componentDidMount() {
@@ -16,34 +16,62 @@ class UpsertProduct extends Component {
   }
 
   render() {
-    const { productName, users } = this.state;
+    const { productName, selectedUsers } = this.state;
 
     return (
       <Card elevation='None'>
         <CardHeader background='dark-3' pad={{ left: 'medium', right: 'medium' }}>
           <Heading level='3'>Create or Edit Product</Heading>
         </CardHeader>
-        <CardBody background='dark-2' pad='large'>
-          <Heading level='4'>Product Name</Heading>
-          <TextInput
-            placeholder='name'
-            value={productName}
-            onChange={(event) => this.setState({ productName: event.target.value })}
-          />
-          <Box direction='row'>
-            <Box margin={{ right: 'large' }}>
-              <Heading level='4'>Selected Users</Heading>
-              <List primaryKey='email' secondaryKey='name' data={this.props.users}></List>
+        <CardBody background='dark-2' pad={{ top: 'small', bottom: 'small', left: 'large', right: 'large' }}>
+          <Form
+            onSubmit={({ value }) => {
+              console.log(value)
+            }}>
+            <Heading level='4'>Product Name</Heading>
+            <Box width='medium'>
+              <FormField name='productName'>
+                <TextInput
+                  name='productName'
+                  placeholder='name'
+                  value={productName}
+                  onChange={(event) => {
+                    this.setState({ productName: event.target.value })
+                  }}
+                />
+              </FormField>
             </Box>
-            <Box margin={{ left: 'large' }}>
-              <Heading level='4'>Users</Heading>
-              <List primaryKey='email' secondaryKey='name' data={this.props.users}></List>
-            </Box>
-          </Box>
-        </CardBody>
-        <CardFooter background='dark-4'>
+            <Box direction='row'>
+              <Box margin={{ right: 'large' }}>
+                <Heading level='4'>Selected Users</Heading>
+                <FormField
+                  name='selectedUsers'>
+                  <TextArea
+                    name='selectedUsers'
+                    value={selectedUsers}
+                    onChange={(event) => {
+                      this.setState({ selectedUsers: event.target.value })
+                    }}
+                  />
+                </FormField>
+              </Box>
+              <Box margin={{ left: 'large' }}>
+                <Heading level='4'>Users</Heading>
+                <List
+                  primaryKey='email'
+                  secondaryKey='name'
+                  data={this.props.users}
+                  onClickItem={({ item, index }) => {
+                    if (!selectedUsers.includes(item.oid)) {
+                      this.setState({ selectedUsers: selectedUsers.concat(`${item.oid},\n`) })
+                    }
 
-        </CardFooter>
+                  }} />
+              </Box>
+            </Box>
+            <Button type="submit" primary label="Submit" />
+          </Form>
+        </CardBody>
       </Card>
     )
   }
