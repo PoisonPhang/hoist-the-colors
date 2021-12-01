@@ -1,7 +1,6 @@
 // Redux actions and reduces for the updating or inserting a product list
 
 import { createSlice } from "@reduxjs/toolkit";
-import { getProductsReducer } from "../products/productsSlice";
 
 export const slice = createSlice({
     name: 'upsertProduct',
@@ -33,7 +32,7 @@ export const createProduct = (name, users) => dispatch => {
             return res.json();
         })
         .then((res) => {
-            dispatch(getProductsReducer(res))
+            dispatch(creatProductReducer(res))
         })
 }
 
