@@ -10,7 +10,7 @@ export const slice = createSlice({
   },
   reducers: {
     loginUser: (state, action) => {
-      state.loggedIn = action.payload.success
+      state.loggedIn = action.payload
     }
   }
 })
@@ -20,10 +20,8 @@ export const { loginUser } = slice.actions;
 export const login = (email, passwordHash) => dispatch => {
   fetch(`/login/${email}/${passwordHash}`)
   .then((res) => {
-    return res.json();
-  })
-  .then((res) => {
-    dispatch(loginUser(res))
+    console.log(`ok? -> ${res.ok}`)
+    dispatch(loginUser(res.ok))
   })
 }
 

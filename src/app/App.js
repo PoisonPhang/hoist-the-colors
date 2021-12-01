@@ -1,8 +1,9 @@
 
 import { Box, Button, Collapsible, Header, Heading, Grommet, Main, Nav, ResponsiveContext, Sidebar, Anchor } from 'grommet'
-import { Flag, Group, Menu, User } from 'grommet-icons';
+import { Flag, Group, Menu, Template, User } from 'grommet-icons';
 import React, { Component } from 'react';
 
+import Account from '../features/account/account';
 import Products from '../features/products/Products';
 import Flags from '../features/flags/Flags';
 import UpsertProduct from '../features/upsertProduct/UpsertProduct';
@@ -25,6 +26,22 @@ const ACCOUNT = 'account'
 class App extends Component {
   state = {
     showSidebar: false,
+    mainContent: ACCOUNT,
+  }
+
+  getMainContent() {
+    switch (this.state.mainContent) {
+      case ACCOUNT:
+        return <Account />
+      case USERS:
+        break;
+      case FLAGS:
+        break;
+      case PRODUCTS:
+        return <UpsertProduct />
+      default:
+        break;
+    }
   }
 
   render() {
@@ -45,9 +62,10 @@ class App extends Component {
                   Hoist The Colors
                 </Heading>
                 <Nav direction='row' pad='medium'>
+                  <Anchor icon={<Template size='large' />} onClick={() => this.setState({mainContent: PRODUCTS})} />
                   <Anchor icon={<Flag size='large' />} />
                   <Anchor icon={<Group size='large' />} />
-                  <Anchor icon={<User size='large' />} />
+                  <Anchor icon={<User size='large' />} onClick={() => this.setState({mainContent: ACCOUNT})} />
                 </Nav>
               </Header>
               {/* Sidebar & Main content */}
@@ -73,7 +91,7 @@ class App extends Component {
                 </Collapsible>
                 {/* Main content */}
                 <Main pad='large' direction='row' justify='center'>
-                  <UpsertProduct />
+                  {this.getMainContent()}
                 </Main>
               </Box>
             </Box>
