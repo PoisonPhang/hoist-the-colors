@@ -24,7 +24,9 @@ export const slice = createSlice({
 export const { creatProductReducer, getUsersReducer } = slice.actions;
 
 export const createProduct = (name, users) => dispatch => {
+    users = users.split(',').map((item) => item.trim())
     fetch(`/create/product/${name}`, {
+        method: 'POST',
         body: JSON.stringify(users),
     })
         .then((res) => {
@@ -37,8 +39,8 @@ export const createProduct = (name, users) => dispatch => {
 
 export const getUsers = () => dispatch => {
     fetch(`/get/users/Client`)
-        .then((res) => { 
-            return res.json(); 
+        .then((res) => {
+            return res.json();
         })
         .then((res) => {
             dispatch(getUsersReducer(res))

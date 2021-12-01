@@ -20,17 +20,24 @@ class UpsertProduct extends Component {
 
     return (
       <Card elevation='None'>
-        <CardHeader background='dark-3' pad={{ left: 'medium', right: 'medium' }}>
+        <CardHeader
+          background='dark-3'
+          pad={{ left: 'medium', right: 'medium' }}
+        >
           <Heading level='3'>Create or Edit Product</Heading>
         </CardHeader>
-        <CardBody background='dark-2' pad={{ top: 'small', bottom: 'small', left: 'large', right: 'large' }}>
+        <CardBody
+          background='dark-2'
+          pad={{ top: 'small', bottom: 'small', left: 'large', right: 'large' }}
+        >
           <Form
             onSubmit={({ value }) => {
-              console.log(value)
-            }}>
+              this.props.createProduct(value.productName, value.selectedUsers)
+            }}
+          >
             <Heading level='4'>Product Name</Heading>
             <Box width='medium'>
-              <FormField name='productName'>
+              <FormField name='productName' required>
                 <TextInput
                   name='productName'
                   placeholder='name'
@@ -45,7 +52,8 @@ class UpsertProduct extends Component {
               <Box margin={{ right: 'large' }}>
                 <Heading level='4'>Selected Users</Heading>
                 <FormField
-                  name='selectedUsers'>
+                  name='selectedUsers'
+                >
                   <TextArea
                     name='selectedUsers'
                     value={selectedUsers}
@@ -65,8 +73,8 @@ class UpsertProduct extends Component {
                     if (!selectedUsers.includes(item.oid)) {
                       this.setState({ selectedUsers: selectedUsers.concat(`${item.oid},\n`) })
                     }
-
-                  }} />
+                  }}
+                />
               </Box>
             </Box>
             <Button type="submit" primary label="Submit" />
