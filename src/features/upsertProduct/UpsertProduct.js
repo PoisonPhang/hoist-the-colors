@@ -49,7 +49,7 @@ class UpsertProduct extends Component {
               </FormField>
             </Box>
             <Box direction='row'>
-              <Box margin={{ right: 'large' }}>
+              <Box width='medium'>
                 <Heading level='4'>Selected Users</Heading>
                 <FormField
                   name='selectedUsers'
@@ -57,6 +57,7 @@ class UpsertProduct extends Component {
                   <TextArea
                     name='selectedUsers'
                     value={selectedUsers}
+                    resize='false'
                     onChange={(event) => {
                       this.setState({ selectedUsers: event.target.value })
                     }}

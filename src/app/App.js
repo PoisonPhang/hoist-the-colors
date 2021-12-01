@@ -17,14 +17,18 @@ const theme = {
   },
 };
 
+const PRODUCTS = 'products'
+const FLAGS = 'flags'
+const USERS = 'flags'
+const ACCOUNT = 'account'
+
 class App extends Component {
   state = {
-    showProducts: false,
-    showFeatures: true,
+    showSidebar: false,
   }
 
   render() {
-    const { showProducts, showFeatures } = this.state;
+    const { showSidebar: showProducts, showSidebar: showFeatures } = this.state;
     return (
       <Grommet full theme={theme} themeMode='dark'>
         <ResponsiveContext.Consumer>
@@ -32,9 +36,17 @@ class App extends Component {
             <Box fill background='dark-1'>
               {/* App Navbar */}
               <Header fill='horizontal' background='brand'>
-                <Button margin='medium' icon={<Menu size='large' />} onClick={() => this.setState({ showProducts: !this.state.showProducts })} />
-                <Heading margin='none' level='1'>Hoist The Colors</Heading>
+                <Button
+                  margin='medium'
+                  icon={<Menu size='large' />}
+                  onClick={() => this.setState({ showProducts: !this.state.showSidebar })}
+                />
+                <Heading margin='none' level='1'>
+                  Hoist The Colors
+                </Heading>
                 <Nav direction='row' pad='medium'>
+                  <Anchor icon={<Flag size='large' />} />
+                  <Anchor icon={<Group size='large' />} />
                   <Anchor icon={<User size='large' />} />
                 </Nav>
               </Header>
@@ -43,11 +55,17 @@ class App extends Component {
                 {/* Main content navigation */}
                 <Collapsible direction='horizontal' open={showProducts}>
                   <Box direction='row' fill='vertical'>
-                    <Sidebar background='dark-3' header={<Heading level='2' margin='medium'>Products</Heading>}>
+                    <Sidebar
+                      background='dark-3'
+                      header={<Heading level='2' margin='medium'>Products</Heading>}
+                    >
                       <Products />
                     </Sidebar>
                     <Collapsible direction='horizontal' open={showProducts && showFeatures}>
-                      <Sidebar background='dark-2' header={<Heading level='2' margin='medium'>Features</Heading>}>
+                      <Sidebar
+                        background='dark-2'
+                        header={<Heading level='2' margin='medium'>Features</Heading>}
+                      >
                         <Flags />
                       </Sidebar>
                     </Collapsible>
