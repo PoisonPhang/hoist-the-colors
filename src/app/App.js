@@ -45,7 +45,7 @@ class App extends Component {
   }
 
   render() {
-    const { showSidebar: showProducts, showSidebar: showFeatures } = this.state;
+    const { showSidebar, mainContent } = this.state;
     return (
       <Grommet full theme={theme} themeMode='dark'>
         <ResponsiveContext.Consumer>
@@ -56,7 +56,7 @@ class App extends Component {
                 <Button
                   margin='medium'
                   icon={<Menu size='large' />}
-                  onClick={() => this.setState({ showProducts: !this.state.showSidebar })}
+                  onClick={() => this.setState({ showSidebar: !this.state.showSidebar })}
                 />
                 <Heading margin='none' level='1'>
                   Hoist The Colors
@@ -71,7 +71,7 @@ class App extends Component {
               {/* Sidebar & Main content */}
               <Box direction='row' flex overflow={{ horizontal: 'hidden' }}>
                 {/* Main content navigation */}
-                <Collapsible direction='horizontal' open={showProducts}>
+                <Collapsible direction='horizontal' open={showSidebar}>
                   <Box direction='row' fill='vertical'>
                     <Sidebar
                       background='dark-3'
@@ -79,7 +79,7 @@ class App extends Component {
                     >
                       <Products />
                     </Sidebar>
-                    <Collapsible direction='horizontal' open={showProducts && showFeatures}>
+                    <Collapsible direction='horizontal' open={ showSidebar }>
                       <Sidebar
                         background='dark-2'
                         header={<Heading level='2' margin='medium'>Features</Heading>}
