@@ -1,17 +1,21 @@
 import { List } from 'grommet'
 import React, { Component } from "react";
 import { connect } from 'react-redux';
-import { getProducts } from './productsSlice'
+import { getProducts, setSelected } from './productsSlice'
 
 class Products extends Component {
+
   componentDidMount() {
-    this.props.getProducts('example@email.com')
+    this.props.getProducts(this.props.email)
   }
 
   render() {
     return (
       <List
         primaryKey='name'
+        onClickItem={({item, index}) => {
+          this.props.setSelected(item.oid);
+        }}
         data={this.props.products}
       />
     )
@@ -21,9 +25,10 @@ class Products extends Component {
 const mapStateToProps = state => {
   return {
     products: state.products.products,
+    email: state.login.email,
   }
 }
 
-const mapDispatchToProps = () => ({ getProducts })
+const mapDispatchToProps = () => ({ getProducts, setSelected })
 
 export default connect(mapStateToProps, mapDispatchToProps())(Products)

@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardBody, CardHeader, Form, FormField, Heading, TextInput } from "grommet";
+import { Box, Button, Card, CardBody, CardHeader, Form, FormField, Heading, Text, TextInput } from "grommet";
 import { Component } from "react";
 import { connect } from "react-redux";
 
@@ -32,6 +32,19 @@ class Account extends Component {
     )
   }
 
+  accountInfo() {
+    return (
+      <Box dir='vertical'>
+        <Heading level='4'>Name</Heading>
+        <Text>{this.props.name}</Text>
+        <Heading level='4'>Email</Heading>
+        <Text>{this.props.email}</Text>
+        <Heading level='4'>ID</Heading>
+        <Text>{this.props.oid}</Text>
+      </Box>
+    )
+  }
+
   render() {
     return (
       <Card elevation='none'>
@@ -42,7 +55,7 @@ class Account extends Component {
           background='dark-2'
           pad={{ top: 'small', bottom: 'small', left: 'large', right: 'large' }}
         >
-          {this.props.loggedIn ? <Box /> : this.loginForm()}
+          {this.props.loggedIn ? this.accountInfo() : this.loginForm()}
         </CardBody>
       </Card>
     )
@@ -52,6 +65,9 @@ class Account extends Component {
 const mapStateToProps = state => {
   return {
     loggedIn: state.login.loggedIn,
+    oid: state.login.oid,
+    name: state.login.name,
+    email: state.login.email,
   }
 }
 

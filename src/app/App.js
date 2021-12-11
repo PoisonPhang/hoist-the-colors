@@ -29,8 +29,8 @@ class App extends Component {
     mainContent: ACCOUNT,
   }
 
-  getMainContent() {
-    switch (this.state.mainContent) {
+  getMainContent(mainContent) {
+    switch (mainContent) {
       case ACCOUNT:
         return <Account />
       case USERS:
@@ -91,7 +91,7 @@ class App extends Component {
                 </Collapsible>
                 {/* Main content */}
                 <Main pad='large' direction='row' justify='center'>
-                  {this.getMainContent()}
+                  {this.getMainContent(mainContent)}
                 </Main>
               </Box>
             </Box>

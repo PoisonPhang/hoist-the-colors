@@ -5,12 +5,17 @@ import { createSlice } from "@reduxjs/toolkit";
 export const slice = createSlice({
   name: 'login',
   initialState: {
-    user: {},
     loggedIn: false,
+    oid: '',
+    name: '',
+    email: '',
   },
   reducers: {
     loginUser: (state, action) => {
-      state.loggedIn = action.payload
+      state.loggedIn = action.payload.loggedIn
+      state.oid = action.payload.oid
+      state.name = action.payload.name
+      state.email = action.payload.email
     }
   }
 })
@@ -20,8 +25,13 @@ export const { loginUser } = slice.actions;
 export const login = (email, passwordHash) => dispatch => {
   fetch(`/login/${email}/${passwordHash}`)
   .then((res) => {
-    console.log(`ok? -> ${res.ok}`)
-    dispatch(loginUser(res.ok))
+    if (res.ok) {
+      res.json().then((res) => {
+        dispatch(loginUser({ loggedIn: true, oid: res.oid, name: res.name, email: res.email }))
+      })
+    } else {
+      dispatch({ loggedIn: false, oid: '', name: '', email: '' })
+    }
   })
 }
 
