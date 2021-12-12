@@ -2,9 +2,10 @@
 import { Box, Button, Card, CardBody, CardHeader, Form, FormField, Heading, List, RangeInput, Select, TextArea, TextInput } from 'grommet';
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import { createFlag } from './upsertFlagSlice'
-import { getUsers } from '../upsertProduct/upsertProductSlice'
-import { getProducts } from '../products/productsSlice'
+import { createFlag } from './upsertFlagSlice';
+import { getUsers } from '../upsertProduct/upsertProductSlice';
+import { getProducts } from '../products/productsSlice';
+import _ from "lodash";
 
 const GLOBAL = 'Global';
 const LIMITED = 'Limited';
@@ -21,10 +22,18 @@ class UpsertFlag extends Component {
     percentage: 100,
   }
 
-  getUser(userId) {
-    return fetch(`/get/user/${userId}`)
-      .then((res) => res.json())
-      .then((res) => res)
+  getReleaseTypeObj(releaseType, percentage, selectedUsers) {
+    if (releaseType === GLOBAL) {
+      return GLOBAL
+    } else if (releaseType === LIMITED) {
+      return {
+        Limited: selectedUsers.split(",/n"),
+      }
+    } else if (releaseType === PERCENTAGE) {
+      return {
+        Percentage: [Number(percentage), selectedUsers.split(",/n")]
+      }
+    }
   }
 
   getReleaseTypeFields(releaseType) {
@@ -70,15 +79,21 @@ class UpsertFlag extends Component {
           <RangeInput 
             name='percentage'
             value={percentage}
-            min={Number(100 / product.users.length)}
+            min={Math.floor(100 / this.props.users.length)}
             max={100}
-            step={Number(100 / product.users.length)}
-          />
-          <Heading level='4'>Users</Heading>
-          <List
-            primaryKey='email'
-            secondaryKey='name'
-            data={selectedUsers.split(',\n').map((item) => this.getUser(item.trim()))}
+            step={Math.floor(100 / this.props.users.length)}
+            onChange={
+              (event) => {
+                let selUsers = _.sampleSize(this.props.users, ((event.target.value * this.props.users.length) / 100))
+                  .map((value) => `\n${value.oid}`)
+                  .toString()
+
+                this.setState({
+                  percentage: event.target.value, 
+                  selectedUsers: selUsers,
+                })
+              }
+            }
           />
         </FormField>
       )
@@ -91,7 +106,7 @@ class UpsertFlag extends Component {
   }
 
   render() {
-    const { flagName, product, globalEnabled, clientToggle, releaseType} = this.state;
+    const { flagName, product, globalEnabled, clientToggle, releaseType, percentage, selectedUsers} = this.state;
     return (
       <Card elevation='None'>
         <CardHeader
@@ -105,7 +120,13 @@ class UpsertFlag extends Component {
           overflow='auto'
           pad={{ top: 'small', bottom: 'small', left: 'large', right: 'large' }}
         >
-          <Form>
+          <Form
+            onSubmit={
+              ({ value }) => {
+                this.props.createFlag(flagName, product.oid, globalEnabled, clientToggle, this.getReleaseTypeObj(releaseType, percentage, selectedUsers))
+              }
+            }
+          >
             <Heading level='4'>Flag Name</Heading>
             <Box width='medium'>
               <FormField name='flagName'>
@@ -162,7 +183,7 @@ class UpsertFlag extends Component {
                 options={[GLOBAL, LIMITED, PERCENTAGE]}
                 value={releaseType}
                 onChange={({ option }) => {
-                  this.setState({ releaseType: option })
+                  this.setState({ releaseType: option})
                 }}
               />
             </FormField>

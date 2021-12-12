@@ -7,6 +7,8 @@ import Account from '../features/account/account';
 import Products from '../features/products/Products';
 import Flags from '../features/flags/Flags';
 import UpsertProduct from '../features/upsertProduct/UpsertProduct';
+import UpsertFlag from '../features/upsertFlag/upsertFlag';
+import UpsertUser from '../features/upsertUser/UpsertUser';
 
 const theme = {
   global: {
@@ -20,7 +22,7 @@ const theme = {
 
 const PRODUCTS = 'products'
 const FLAGS = 'flags'
-const USERS = 'flags'
+const USERS = 'Users'
 const ACCOUNT = 'account'
 
 class App extends Component {
@@ -34,9 +36,9 @@ class App extends Component {
       case ACCOUNT:
         return <Account />
       case USERS:
-        break;
+        return <UpsertUser />
       case FLAGS:
-        break;
+        return <UpsertFlag />
       case PRODUCTS:
         return <UpsertProduct />
       default:
@@ -62,10 +64,10 @@ class App extends Component {
                   Hoist The Colors
                 </Heading>
                 <Nav direction='row' pad='medium'>
-                  <Anchor icon={<Template size='large' />} onClick={() => this.setState({mainContent: PRODUCTS})} />
-                  <Anchor icon={<Flag size='large' />} />
-                  <Anchor icon={<Group size='large' />} />
-                  <Anchor icon={<User size='large' />} onClick={() => this.setState({mainContent: ACCOUNT})} />
+                  <Anchor icon={<Template size='large' />} onClick={() => this.setState({ mainContent: PRODUCTS })} />
+                  <Anchor icon={<Flag size='large' />} onClick={() => this.setState({ mainContent: FLAGS })}/>
+                  <Anchor icon={<Group size='large' />} onClick={() => this.setState({ mainContent: USERS })} />
+                  <Anchor icon={<User size='large' />} onClick={() => this.setState({ mainContent: ACCOUNT })} />
                 </Nav>
               </Header>
               {/* Sidebar & Main content */}

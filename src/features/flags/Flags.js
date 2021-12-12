@@ -4,13 +4,23 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getFlags } from "./flagsSlice";
 
+const getReleaseTypeText = (releaseType) => {
+  if (releaseType === 'Global') {
+    return 'Global'
+  } else if (releaseType.Limited) {
+    return 'Limited'
+  } else if (releaseType.Percentage) {
+    return `${releaseType.Percentage[0]}%`
+  }
+}
+
 const createFlagListElement = (flagObj) => {
   return (<TableRow background={flagObj.enabled ? 'status-ok' : 'status-disabled'}>
     <TableCell scope='row' align='center'><Configure /></TableCell>
     <TableCell>{flagObj.name}</TableCell>
     <TableCell align='center'>{flagObj.enabled ? (<Checkmark />) : (<Close />)}</TableCell>
-    <TableCell align='center'>{flagObj.clientToggle ? (<Checkmark />) : (<Close />)}</TableCell>
-    <TableCell>{flagObj.releaseType.type}</TableCell>
+    <TableCell align='center'>{flagObj.clien_toggle ? (<Checkmark />) : (<Close />)}</TableCell>
+    <TableCell>{getReleaseTypeText(flagObj.release_type)}</TableCell>
   </TableRow>)
 }
 
