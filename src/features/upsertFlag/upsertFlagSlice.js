@@ -22,5 +22,14 @@ export const slice = createSlice({
 export const { createFlagReducer } = slice.actions;
 
 export const createFlag = (name, productId, enabled, clientToggle, releaseType) => dispatch => {
-
+  fetch(`/create/flag/${name}/${productId}/${enabled}/${clientToggle}`, {
+    method: 'POST',
+    body: JSON.stringify(releaseType)
+  })
+    .then((res) => res.json())
+    .then((res) => {
+      dispatch(createFlagReducer(res))
+    })
 }
+
+export default slice.reducer;
