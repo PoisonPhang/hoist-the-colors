@@ -7,13 +7,15 @@ export const slice = createSlice({
   initialState: {
     products: [],
     selectedProduct: '',
+    productName: '',
   },
   reducers: {
     getProductsReducer: (state, action) => {
       state.products = action.payload;
     },
     setSelectedProduct: (state, action) => {
-      state.selectedProduct = action.payload
+      state.selectedProduct = action.payload.oid;
+      state.productName = action.payload.name;
     }
   }
 })
@@ -30,8 +32,8 @@ export const getProducts = email => dispatch => {
     })
 }
 
-export const setSelected = oid => dispatch => {
-  dispatch(setSelectedProduct(oid))
+export const setSelected = (oid, name) => dispatch => {
+  dispatch(setSelectedProduct({ oid: oid, name: name }))
 }
 
 export default slice.reducer;

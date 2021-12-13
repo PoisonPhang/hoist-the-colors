@@ -5,6 +5,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const slice = createSlice({
   name: 'login',
   initialState: {
+    accountType: '',
     loggedIn: false,
     oid: '',
     name: '',
@@ -12,6 +13,7 @@ export const slice = createSlice({
   },
   reducers: {
     loginUser: (state, action) => {
+      state.accountType = action.payload.accountType
       state.loggedIn = action.payload.loggedIn
       state.oid = action.payload.oid
       state.name = action.payload.name
@@ -27,10 +29,10 @@ export const login = (email, passwordHash) => dispatch => {
   .then((res) => {
     if (res.ok) {
       res.json().then((res) => {
-        dispatch(loginUser({ loggedIn: true, oid: res.oid, name: res.name, email: res.email }))
+        dispatch(loginUser({ accountType: res.account_type, loggedIn: true, oid: res.oid, name: res.name, email: res.email }))
       })
     } else {
-      dispatch({ loggedIn: false, oid: '', name: '', email: '' })
+      dispatch({ accountType: '', loggedIn: false, oid: '', name: '', email: '' })
     }
   })
 }

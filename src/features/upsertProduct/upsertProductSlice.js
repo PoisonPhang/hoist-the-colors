@@ -23,10 +23,10 @@ export const slice = createSlice({
 export const { creatProductReducer, getUsersReducer } = slice.actions;
 
 export const createProduct = (name, users) => dispatch => {
-    users = users.split(',/n').map((item) => item.trim())
+    let usersArray = users.split(',\n').map((item) => item.trim())
     fetch(`/create/product/${name}`, {
         method: 'POST',
-        body: JSON.stringify(users),
+        body: JSON.stringify(usersArray),
     })
         .then((res) => {
             return res.json();

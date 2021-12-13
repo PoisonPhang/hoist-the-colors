@@ -9,6 +9,7 @@ import Flags from '../features/flags/Flags';
 import UpsertProduct from '../features/upsertProduct/UpsertProduct';
 import UpsertFlag from '../features/upsertFlag/upsertFlag';
 import UpsertUser from '../features/upsertUser/UpsertUser';
+import { connect } from 'react-redux';
 
 const theme = {
   global: {
@@ -64,10 +65,18 @@ class App extends Component {
                   Hoist The Colors
                 </Heading>
                 <Nav direction='row' pad='medium'>
-                  <Anchor icon={<Template size='large' />} onClick={() => this.setState({ mainContent: PRODUCTS })} />
-                  <Anchor icon={<Flag size='large' />} onClick={() => this.setState({ mainContent: FLAGS })}/>
-                  <Anchor icon={<Group size='large' />} onClick={() => this.setState({ mainContent: USERS })} />
-                  <Anchor icon={<User size='large' />} onClick={() => this.setState({ mainContent: ACCOUNT })} />
+                  {(this.props.loggedIn && this.props.accountType === 'Developer') ? 
+                    (
+                    <Box direction='row'>
+                    <Anchor icon={<Template size='large' />} onClick={() => this.setState({ mainContent: PRODUCTS })} />
+                    <Anchor icon={<Flag size='large' />} onClick={() => this.setState({ mainContent: FLAGS })}/>
+                    <Anchor icon={<Group size='large' />} onClick={() => this.setState({ mainContent: USERS })} />
+                    <Anchor icon={<User size='large' />} onClick={() => this.setState({ mainContent: ACCOUNT })} />
+                    </Box>
+                    ) : ( 
+                    <Anchor icon={<User size='large' />} onClick={() => this.setState({ mainContent: ACCOUNT })} />
+                    )
+                  }
                 </Nav>
               </Header>
               {/* Sidebar & Main content */}
@@ -81,10 +90,10 @@ class App extends Component {
                     >
                       <Products />
                     </Sidebar>
-                    <Collapsible direction='horizontal' open={ showSidebar }>
+                    <Collapsible direction='horizontal' open={ showSidebar && this.props.selectedProduct }>
                       <Sidebar
                         background='dark-2'
-                        header={<Heading level='2' margin='medium'>Features</Heading>}
+                        header={<Heading level='2' margin='medium'>Features - {`${this.props.productName}`}</Heading>}
                       >
                         <Flags />
                       </Sidebar>
@@ -104,4 +113,15 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    loggedIn: state.login.loggedIn,
+    accountType: state.login.accountType,
+    selectedProduct: state.products.selectedProduct,
+    productName: state.products.productName,
+  }
+}
+
+const mapDispatchToProps = () => ({})
+
+export default connect(mapStateToProps, mapDispatchToProps())(App)

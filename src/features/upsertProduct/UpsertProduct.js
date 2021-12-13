@@ -29,6 +29,7 @@ class UpsertProduct extends Component {
         <CardBody
           background='dark-2'
           pad={{ top: 'small', bottom: 'small', left: 'large', right: 'large' }}
+          overflow='auto'
         >
           <Form
             onSubmit={({ value }) => {

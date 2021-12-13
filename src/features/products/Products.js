@@ -14,7 +14,7 @@ class Products extends Component {
       <List
         primaryKey='name'
         onClickItem={({item, index}) => {
-          this.props.setSelected(item.oid);
+          this.props.setSelected(item.oid, item.name);
         }}
         data={this.props.products}
       />
